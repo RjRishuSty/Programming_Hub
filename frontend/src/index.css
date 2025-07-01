@@ -1,9 +1,38 @@
-*{
-  margin:0;
-  padding:0;
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-body{
+body {
   width: 100%;
+}
+
+/* ===== Scrollbar Styling ===== */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e8fcfb; /* highlight.isActive */
+  border-radius: 10px;
+}
+
+/* Thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #129990; /* primary.main */
+  border-radius: 10px;
+  border: 2px solid #e8fcfb; /* match track */
+}
+
+/* Thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #096B68; /* secondary.main */
+}
+
+/* Corner (for both axes) */
+::-webkit-scrollbar-corner {
+  background: #FFFBDE; /* background.default */
 }

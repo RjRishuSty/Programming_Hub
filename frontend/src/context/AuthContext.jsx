@@ -1,4 +1,4 @@
-import React, {  createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { api } from "../lib/api";
 
@@ -8,6 +8,7 @@ export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState(null);
+  const [isToken, setIsToken] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const checkAuthHandler = async () => {
@@ -15,19 +16,38 @@ const AuthProvider = ({ children }) => {
       const response = await axios.get(`${api}/api/auth/check-auth`, {
         withCredentials: true,
       });
-      console.log("in Auth Context", response);
+      setAuthUser(response.data.data);
+      setIsToken(true);
     } catch (error) {
       setAuthUser(null);
+      setIsToken(false);
       console.log(error.response.data.success);
     } finally {
       setIsLoading(false);
     }
   };
+
+  const handlerLogout = async () => {
+    try {
+      const response = await axios.post(`${api}/api/auth/logout`,null, {
+        withCredentials: true,
+      });
+      console.log(response);
+      setAuthUser(null);
+      setIsToken(false);
+    } catch (error) {
+      console.log(error);
+      setIsToken(true);
+    }
+  };
   useEffect(() => {
     checkAuthHandler();
   }, []);
+
   return (
-    <AuthContext.Provider value={{ authUser, isLoading }}>
+    <AuthContext.Provider
+      value={{ authUser,isToken, isLoading, checkAuthHandler, handlerLogout }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -73,8 +73,14 @@ const loginHandler = async (req, res) => {
 };
 
 const logoutHandler = async (req, res) => {
+  const isProduction = process.env.MODE !== "development";
   try {
-    res.cookie("jwtToken", "", { maxAge: 0 });
+    res.cookie("jwtToken", "",  {
+      httpOnly: true,
+      secure: isProduction, // only true in production (uses HTTPS)
+      sameSite: isProduction ? "None" : "Lax", 
+      expires: new Date(0), // cookie removal
+    });
     res.status(200).json({ message: "Logout successfully", success: true });
   } catch (error) {
     res.status(500).json({

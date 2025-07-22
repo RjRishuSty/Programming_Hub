@@ -4,6 +4,7 @@ import cors from 'cors';
 import cookieParser from "cookie-parser";
 import connectDB from "./lib/connectDB.js";
 import authRoutes from "./routes/auth.routes.js";
+import blogRouters from "./routes/blog.routes.js";
 
 dotenv.config();
 const app = express();
@@ -19,6 +20,7 @@ app.use(
   })
 );
 app.use("/api/auth", authRoutes);
+app.use('/api/blog', blogRouters);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
